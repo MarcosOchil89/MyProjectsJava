@@ -1,0 +1,79 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * O PROGRAMA DEMONSTRA QUE PARA UMA QUANTIDADE DE RAINHA É POSSÍVEL USAR A RECURSÃO.
+ * ALGORITMO BACKTRACKING
+ * http://www.geeksforgeeks.org/backtracking-set-3-n-queen-problem/
+ * PARA MAIS INFORMAÇÕES SOBRE O ALGORITMO
+ */
+package nqueens;
+
+import java.util.Scanner;
+
+/**
+ *
+ * @author Marcos Ochil
+ */
+public class NRainhas {
+
+    private static Scanner leia = new Scanner(System.in); //Realizado invocação da Classe Scanner e criado variável leia
+    //para receber entradas de dados pelo usuário.
+
+    public static void main(String[] args) {
+
+        System.out.print("Informe a quantidade de Rainhas: "); //Solicitado ao usuário a quantidade de rainhas no tabuleiro
+        
+        int[] a = new int[Integer.parseInt(leia.nextLine())]; //Alocar tamanho do vetor 
+        
+        //Calcular o tempo de execução do algoritmo
+        long start = System.currentTimeMillis();
+        nQueens(a, 0);
+        long delay = System.currentTimeMillis() - start;
+        System.out.println("A execução levou " + delay + " milissegundos");
+    }
+
+    /**
+     * Imprimir posições das rainhas
+     * @param q
+     * @param i 
+     */
+    public static void nQueens(int[] q, int i) {
+        if (q.length == i) { //quando a condição for verdadeira será realizdo impressão de todas as rainhas.
+
+            for (int k = 0; k < q.length; k++) {
+                for (int j = 0; j < q.length; j++) {
+                    if (q[k] == j) {
+                        System.out.print("R ");
+                    } else {
+                        System.out.print("* ");
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println();
+
+        } else { // se a condição não for verdadeira será verificado a posição de cada rainha.
+            for (int k = 0; k < q.length; k++) {
+                q[i] = k;
+                if (valido(q, i)) {
+                    nQueens(q, i + 1); //Recursão
+                }
+            }
+        }
+    }
+
+    //Valida a posição da rainha, verifica se não há confronto entre as rainhas posicionadas no tabuleiro.
+    public static boolean valido(int[] q, int n) {
+        for (int i = 0; i < n; i++) {
+            if ((q[i] == q[n]) || ((q[n] - q[i]) == (n - i))
+                    || ((q[i] - q[n]) == (n - i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
